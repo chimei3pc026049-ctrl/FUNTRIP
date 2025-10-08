@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" class="scroll-smooth">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>毛起來玩 ForFun Trip | 寵物旅遊公司</title>
+    <title>毛起來玩 FurFun Trip | 寵物旅遊公司</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,56 +12,151 @@
         body {
             font-family: 'Nunito', 'Noto Sans TC', sans-serif;
         }
-        /* 自定義 Tailwind 顏色 */
-        .bg-brand-orange { background-color: #FFA736; }
-        .bg-brand-blue { background-color: #64C3FF; }
-        .bg-brand-cream { background-color: #FFF8E1; }
-        .text-brand-orange { color: #FFA736; }
-        .text-brand-blue { color: #64C3FF; }
-        .border-brand-orange { border-color: #FFA736; }
+        /* 自定義顏色 */
+        :root {
+            --brand-orange: #FFA736;
+            --brand-blue: #64C3FF;
+            --brand-cream: #FFF8E1;
+        }
+        .bg-brand-orange { background-color: var(--brand-orange); }
+        .bg-brand-blue { background-color: var(--brand-blue); }
+        .bg-brand-cream { background-color: var(--brand-cream); }
+        .text-brand-orange { color: var(--brand-orange); }
+        .text-brand-blue { color: var(--brand-blue); }
+        .border-brand-orange { border-color: var(--brand-orange); }
 
+        /* 導覽列連結樣式 */
         .nav-link {
-            transition: color 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            transition: color 0.3s ease;
         }
-        .nav-link.active {
-            color: #FFA736;
-            border-bottom-color: #FFA736;
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--brand-orange);
+            transition: width 0.3s ease;
         }
-        .nav-link:hover {
-            color: #FFA736;
+        .nav-link.active, .nav-link:hover {
+            color: var(--brand-orange);
         }
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
         }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
+        
+        /* 頁面切換效果 */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
         }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 英雄背景 */
         .hero-bg {
             background-image: url('https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?q=80&w=2576&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
+
+        /* 打字機效果 */
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .1em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--brand-orange); }
+        }
+
+        /* 服務卡片互動效果 */
+        .service-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .service-card .glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 167, 54, 0.3) 0%, rgba(255, 167, 54, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+        }
+        .service-card:hover .glow {
+            opacity: 1;
+        }
+        
+        /* 載入動畫 */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--brand-cream);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .paw-spinner {
+            font-size: 5rem;
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
     </style>
 </head>
 <body class="bg-brand-cream text-gray-800">
 
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="paw-spinner">🐾</div>
+    </div>
+
     <!-- Header & Navigation -->
-    <header id="header" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-md transition-all duration-300">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#home" class="flex items-center space-x-2">
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 left-0 right-0 z-50 shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" data-page="home" class="page-link flex items-center space-x-2">
                 <img src="trip.png" alt="毛起來玩 Logo" class="h-12 w-12">
-                <span class="text-2xl font-extrabold text-brand-orange tracking-wider">ForFun Trip</span>
+                <span class="text-2xl font-extrabold text-brand-orange tracking-wider">FurFun Trip</span>
             </a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">首頁</a>
-                <a href="#about" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">公司簡介</a>
-                <a href="#services" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">服務項目</a>
-                <a href="#team" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">我們的團隊</a>
-                <a href="#events" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">活動歷程</a>
-                <a href="#contact" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">交通資訊</a>
+                <a href="#" data-page="home" class="nav-link page-link">首頁</a>
+                <a href="#" data-page="about" class="nav-link page-link">公司簡介</a>
+                <a href="#" data-page="services" class="nav-link page-link">服務項目</a>
+                <a href="#" data-page="team" class="nav-link page-link">我們的團隊</a>
+                <a href="#" data-page="events" class="nav-link page-link">活動歷程</a>
+                <a href="#" data-page="contact" class="nav-link page-link">交通資訊</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,214 +165,246 @@
             </button>
         </div>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="#home" class="block nav-link text-gray-600">首頁</a>
-            <a href="#about" class="block nav-link text-gray-600">公司簡介</a>
-            <a href="#services" class="block nav-link text-gray-600">服務項目</a>
-            <a href="#team" class="block nav-link text-gray-600">我們的團隊</a>
-            <a href="#events" class="block nav-link text-gray-600">活動歷程</a>
-            <a href="#contact" class="block nav-link text-gray-600">交通資訊</a>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2 bg-white">
+            <a href="#" data-page="home" class="block page-link text-gray-600">首頁</a>
+            <a href="#" data-page="about" class="block page-link text-gray-600">公司簡介</a>
+            <a href="#" data-page="services" class="block page-link text-gray-600">服務項目</a>
+            <a href="#" data-page="team" class="block page-link text-gray-600">我們的團隊</a>
+            <a href="#" data-page="events" class="block page-link text-gray-600">活動歷程</a>
+            <a href="#" data-page="contact" class="block page-link text-gray-600">交通資訊</a>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main class="container mx-auto px-6 py-12">
         <!-- Section 1: Home (Hero) -->
-        <section id="home" class="hero-bg h-screen flex items-center justify-center text-white pt-16">
-            <div class="bg-black/50 p-10 rounded-xl text-center backdrop-blur-sm">
-                <h1 class="text-5xl md:text-7xl font-extrabold drop-shadow-lg">毛起來玩，幸福就來！</h1>
-                <p class="mt-4 text-xl md:text-2xl font-bold text-brand-blue drop-shadow-lg">Fur-fun and happiness!</p>
-                <p class="mt-6 max-w-2xl mx-auto text-lg">我們致力於打造最棒的人寵共享旅遊體驗，讓每一段旅程，都充滿毛孩的笑容與回憶。</p>
-                <a href="#services" class="mt-8 inline-block bg-brand-orange hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">探索我們的旅程</a>
+        <section id="home" class="page-section">
+            <div class="hero-bg h-[calc(100vh-150px)] rounded-2xl flex items-center justify-center text-white">
+                <div class="bg-black/50 p-10 rounded-xl text-center backdrop-blur-sm">
+                    <div class="typewriter">
+                        <h1 class="text-5xl md:text-7xl font-extrabold drop-shadow-lg">毛起來玩，幸福就來！</h1>
+                    </div>
+                    <p class="mt-4 text-xl md:text-2xl font-bold text-brand-blue drop-shadow-lg animate-[fadeIn_1.5s_ease-in-out_1s_backwards]">Fur-fun and happiness!</p>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg animate-[fadeIn_1.5s_ease-in-out_1.5s_backwards]">我們致力於打造最棒的人寵共享旅遊體驗，讓每一段旅程，都充滿毛孩的笑容與回憶。</p>
+                    <a href="#" data-page="services" class="page-link mt-8 inline-block bg-brand-orange hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 animate-[fadeIn_1.5s_ease-in-out_2s_backwards]">探索我們的旅程</a>
+                </div>
             </div>
         </section>
 
         <!-- Section 2: About Us -->
-        <section id="about" class="py-20 fade-in-section">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl font-bold mb-4">關於我們</h2>
-                <p class="text-lg text-gray-600 mb-12">以「快樂出遊」為核心，成為最懂毛孩與飼主的旅遊品牌。</p>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                    <!-- Vision -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition duration-300">
+        <section id="about" class="page-section py-20">
+            <div class="container mx-auto px-6">
+                 <div class="text-center">
+                    <h2 class="text-4xl font-bold mb-4">關於我們</h2>
+                    <p class="text-lg text-gray-600">以「快樂出遊」為核心，成為最懂毛孩與飼主的旅遊品牌。</p>
+                </div>
+
+                <!-- Vision & Mission -->
+                <div class="grid md:grid-cols-2 gap-8 my-12 text-center">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
                         <h3 class="text-2xl font-bold text-brand-orange mb-3">我們的願景 (Vision)</h3>
                         <p class="text-gray-700">讓每一段旅程，都有毛孩的笑容與回憶。</p>
                     </div>
-                    <!-- Mission -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition duration-300">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
                         <h3 class="text-2xl font-bold text-brand-blue mb-3">我們的使命 (Mission)</h3>
                         <p class="text-gray-700">讓出遊更簡單、更有趣，成為寵物與飼主共同創造幸福時光的旅遊平台。</p>
                     </div>
-                    <!-- Core Values -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg md:col-span-2 lg:col-span-1 transform hover:-translate-y-2 transition duration-300">
-                         <h3 class="text-2xl font-bold text-green-500 mb-3">核心價值 (Core Values)</h3>
-                        <ul class="space-y-2">
-                            <li>🧡 <span class="font-bold">快樂:</span> 讓旅程充滿笑容與趣味</li>
-                            <li>🐾 <span class="font-bold">陪伴:</span> 飼主與毛孩共同體驗</li>
-                            <li>🏕️ <span class="font-bold">冒險:</span> 探索新景點與互動樂趣</li>
-                            <li>🌈 <span class="font-bold">分享:</span> 透過社群連結寵物家庭</li>
-                        </ul>
+                </div>
+
+                <!-- Core Values -->
+                <div class="text-center mt-20 mb-12">
+                     <h3 class="text-3xl font-bold text-green-500">核心價值 (Core Values)</h3>
+                     <p class="text-md text-gray-500 mt-2">我們相信的四個快樂魔法</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Value 1: Happiness -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4">🧡</div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">快樂</h4>
+                        <p class="text-gray-600">讓旅程充滿笑容與趣味</p>
+                    </div>
+                    <!-- Value 2: Companionship -->
+                     <div class="bg-white p-8 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4">🐾</div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">陪伴</h4>
+                        <p class="text-gray-600">飼主與毛孩共同體驗</p>
+                    </div>
+                    <!-- Value 3: Adventure -->
+                     <div class="bg-white p-8 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4">🏕️</div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">冒險</h4>
+                        <p class="text-gray-600">探索新景點與互動樂趣</p>
+                    </div>
+                    <!-- Value 4: Community -->
+                     <div class="bg-white p-8 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
+                        <div class="text-6xl mb-4">🌈</div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-2">分享</h4>
+                        <p class="text-gray-600">透過社群連結寵物家庭</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Section 3: Services -->
-        <section id="services" class="py-20 bg-white fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold">服務項目</h2>
-                    <p class="text-lg text-gray-600 mt-2">我們提供多元服務，滿足您與毛孩的各種需求。</p>
+        <section id="services" class="page-section py-20">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold">服務項目</h2>
+                <p class="text-lg text-gray-600 mt-2">我們提供多元服務，滿足您與毛孩的各種需求。</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="service-card bg-white p-6 rounded-xl text-center">
+                    <div class="text-5xl mb-4">🏞️</div><h3 class="text-xl font-bold mb-2">寵物休閒旅遊</h3><p class="text-gray-700">規劃一日遊、露營、住宿、戶外活動，讓人寵盡情放鬆。</p><div class="glow"></div>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Service Card 1 -->
-                    <div class="bg-brand-cream p-6 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
-                        <div class="text-5xl mb-4">🏞️</div>
-                        <h3 class="text-xl font-bold mb-2">寵物休閒旅遊</h3>
-                        <p class="text-gray-700">規劃一日遊、露營、住宿、戶外活動，讓人寵盡情放鬆。</p>
-                    </div>
-                     <!-- Service Card 2 -->
-                    <div class="bg-brand-cream p-6 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
-                        <div class="text-5xl mb-4">🎡</div>
-                        <h3 class="text-xl font-bold mb-2">活動企劃與市集</h3>
-                        <p class="text-gray-700">舉辦毛孩派對、攝影比賽、嘉年華，創造獨特回憶。</p>
-                    </div>
-                     <!-- Service Card 3 -->
-                    <div class="bg-brand-cream p-6 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
-                        <div class="text-5xl mb-4">🐕</div>
-                        <h3 class="text-xl font-bold mb-2">旅宿合作平台</h3>
-                        <p class="text-gray-700">整合寵物友善飯店、露營地與交通接駁，出遊沒煩惱。</p>
-                    </div>
-                     <!-- Service Card 4 -->
-                    <div class="bg-brand-cream p-6 rounded-xl shadow-lg text-center transform hover:scale-105 transition duration-300">
-                        <div class="text-5xl mb-4">📱</div>
-                        <h3 class="text-xl font-bold mb-2">社群與會員服務</h3>
-                        <p class="text-gray-700">提供積分制度、旅行分享社群，還有可愛的周邊商城！</p>
-                    </div>
+                <div class="service-card bg-white p-6 rounded-xl text-center">
+                    <div class="text-5xl mb-4">🎡</div><h3 class="text-xl font-bold mb-2">活動企劃與市集</h3><p class="text-gray-700">舉辦毛孩派對、攝影比賽、嘉年華，創造獨特回憶。</p><div class="glow"></div>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl text-center">
+                    <div class="text-5xl mb-4">🐕</div><h3 class="text-xl font-bold mb-2">旅宿合作平台</h3><p class="text-gray-700">整合寵物友善飯店、露營地與交通接駁，出遊沒煩惱。</p><div class="glow"></div>
+                </div>
+                <div class="service-card bg-white p-6 rounded-xl text-center">
+                    <div class="text-5xl mb-4">📱</div><h3 class="text-xl font-bold mb-2">社群與會員服務</h3><p class="text-gray-700">提供積分制度、旅行分享社群，還有可愛的周邊商城！</p><div class="glow"></div>
                 </div>
             </div>
         </section>
 
         <!-- Section 4: Our Team -->
-        <section id="team" class="py-20 fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold">我們的團隊</h2>
-                    <p class="text-lg text-gray-600 mt-2">由一群熱愛寵物與旅遊的夥伴組成，為您提供最專業的服務。</p>
-                </div>
-                <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg mb-12">
-                    <h3 class="text-2xl font-bold text-center mb-6">公司組織圖</h3>
-                    <img src="組織圖.png" alt="公司組織圖" class="w-full h-auto rounded-lg">
-                </div>
+        <section id="team" class="page-section py-20">
+             <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">我們的團隊</h2>
+                <p class="text-lg text-gray-600 mt-2">由一群熱愛寵物與旅遊的夥伴組成，為您提供最專業的服務。</p>
             </div>
-        </section>
-
-        <!-- Section 4.5: Event History -->
-        <section id="events" class="py-20 bg-white fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold">活動歷程</h2>
-                    <p class="text-lg text-gray-600 mt-2">每一次的相聚，都是與毛孩共創的珍貴回憶。</p>
-                </div>
-                <!-- Timeline -->
-                <div class="relative max-w-2xl mx-auto">
-                    <!-- Timeline Line -->
-                    <div class="absolute left-1/2 w-1 bg-brand-blue h-full transform -translate-x-1/2"></div>
-                    
-                    <!-- Timeline Item 1 -->
-                    <div class="mb-8 flex justify-between items-center w-full right-timeline">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-12 h-12 rounded-full">
-                            <h1 class="mx-auto font-bold text-lg text-white">🏖️</h1>
-                        </div>
-                        <div class="order-1 bg-brand-cream rounded-lg shadow-xl w-5/12 px-6 py-4 transform hover:scale-105 transition duration-300">
-                            <h3 class="mb-3 font-bold text-gray-800 text-xl">夏日海灘狗狗派對</h3>
-                            <p class="text-sm leading-snug tracking-wide text-gray-600">2025 年 8 月</p>
-                            <p class="text-sm font-medium leading-snug tracking-wide text-gray-900 text-opacity-100 mt-2">在台南黃金海岸舉辦，超過 50 隻狗狗與主人們一起玩水、玩沙、享受陽光！</p>
-                        </div>
+            
+            <!-- New Team Layout -->
+            <div class="space-y-12">
+                <!-- General Manager -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition duration-300">
+                    <div class="flex-shrink-0">
+                        <div class="w-32 h-32 rounded-full bg-brand-orange/20 flex items-center justify-center text-6xl">👑</div>
                     </div>
-
-                    <!-- Timeline Item 2 -->
-                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-12 h-12 rounded-full">
-                             <h1 class="mx-auto font-bold text-lg text-white">🎄</h1>
-                        </div>
-                        <div class="order-1 bg-brand-cream rounded-lg shadow-xl w-5/12 px-6 py-4 transform hover:scale-105 transition duration-300">
-                            <h3 class="mb-3 font-bold text-gray-800 text-xl">聖誕寵物市集</h3>
-                            <p class="text-sm leading-snug tracking-wide text-gray-600">2024 年 12 月</p>
-                             <p class="text-sm font-medium leading-snug tracking-wide text-gray-900 text-opacity-100 mt-2">與文創品牌合作，舉辦了溫馨的聖誕市集，交換禮物活動讓大家滿載而歸。</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Timeline Item 3 -->
-                     <div class="mb-8 flex justify-between items-center w-full right-timeline">
-                        <div class="order-1 w-5/12"></div>
-                        <div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-12 h-12 rounded-full">
-                            <h1 class="mx-auto font-bold text-lg text-white">🏕️</h1>
-                        </div>
-                        <div class="order-1 bg-brand-cream rounded-lg shadow-xl w-5/12 px-6 py-4 transform hover:scale-105 transition duration-300">
-                            <h3 class="mb-3 font-bold text-gray-800 text-xl">秋季山林健行趣</h3>
-                             <p class="text-sm leading-snug tracking-wide text-gray-600">2024 年 10 月</p>
-                             <p class="text-sm font-medium leading-snug tracking-wide text-gray-900 text-opacity-100 mt-2">帶領大家前往阿里山，享受森林浴與芬多精，毛孩們在山林間盡情奔跑。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Section 5: Contact & Location -->
-        <section id="contact" class="py-20 bg-brand-cream fade-in-section">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold">交通資訊 & 聯絡我們</h2>
-                    <p class="text-lg text-gray-600 mt-2">期待與您和毛孩見面！</p>
-                </div>
-                <div class="grid lg:grid-cols-2 gap-12 items-start">
-                    <!-- Map -->
                     <div>
-                        <div class="bg-gray-200 rounded-xl shadow-lg overflow-hidden h-96">
-                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.683516942941!2d120.2889813154563!3d23.07212098492724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e70f6e32d1d0b%3A0x6a2c305c4885f83!2zNzEx5Y-w5Y2X5biC55m-5b-X5Y2A!5e0!3m2!1szh-TW!2stw!4v1665561000123!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                        <div class="mt-6 bg-brand-cream p-6 rounded-xl">
-                            <h3 class="text-xl font-bold mb-2">毛起來玩有限公司</h3>
-                            <p class="text-gray-700">地址：711 台南市歸仁區（此為範例地址）</p>
-                            <p class="text-gray-700">電話：(06) 123-4567</p>
-                            <p class="text-gray-700">Email：service@furfuntrip.com</p>
-                        </div>
+                        <h3 class="text-3xl font-bold text-brand-orange">總經理 - 雅惠</h3>
+                        <p class="font-semibold text-gray-500 mb-4">General Manager</p>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700">
+                            <li>規劃經營策略、達成營收與績效目標。</li>
+                            <li>督導各部門運作，進行資源配置與人員管理。</li>
+                            <li>對外代表公司，維護形象並推動合作。</li>
+                        </ul>
                     </div>
-                    <!-- Contact Form -->
-                    <div class="bg-brand-cream p-8 rounded-xl shadow-lg">
-                        <h3 class="text-2xl font-bold mb-6">傳送訊息給我們</h3>
-                        <form action="#" method="POST">
-                            <div class="mb-4">
-                                <label for="name" class="block text-gray-700 font-bold mb-2">您的稱呼</label>
-                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange" required>
+                </div>
+
+                <!-- Departments Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Card: Tour Product Development -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 rounded-full bg-brand-blue/20 flex items-center justify-center text-4xl mr-4 flex-shrink-0">🗺️</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-blue">旅遊產品開發部</h3>
+                                <p class="font-semibold text-gray-500">桂娟</p>
                             </div>
-                            <div class="mb-4">
-                                <label for="email" class="block text-gray-700 font-bold mb-2">電子郵件</label>
-                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange" required>
-                            </div>
-                            <div class="mb-6">
-                                <label for="message" class="block text-gray-700 font-bold mb-2">您的訊息</label>
-                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange" required></textarea>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="w-full bg-brand-orange hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-lg transition duration-300">送出</button>
-                            </div>
-                        </form>
+                        </div>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700 text-sm">
+                            <li>旅遊行程設計（露營、一日遊、旅宿）</li>
+                            <li>旅宿與交通合作洽談</li>
+                            <li>新產品開發與測試</li>
+                            <li>服務流程規劃與品質把關</li>
+                        </ul>
                     </div>
+                    
+                    <!-- Card: Marketing & Planning -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition duration-300">
+                         <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 rounded-full bg-brand-blue/20 flex items-center justify-center text-4xl mr-4 flex-shrink-0">📣</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-blue">行銷企劃部</h3>
+                                <p class="font-semibold text-gray-500">鈺翔</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700 text-sm">
+                            <li>品牌推廣</li>
+                            <li>活動企劃（市集、毛孩派對）</li>
+                            <li>廣告與異業合作</li>
+                            <li>市場調查與行銷數據分析</li>
+                        </ul>
+                    </div>
+
+                    <!-- Card: Customer Service -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 rounded-full bg-brand-blue/20 flex items-center justify-center text-4xl mr-4 flex-shrink-0">💖</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-blue">客戶服務部</h3>
+                                <p class="font-semibold text-gray-500">美玲</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700 text-sm">
+                            <li>會員經營：積分制度、會員權益設計</li>
+                            <li>客戶服務：訂位、退改票、問題處理</li>
+                            <li>社群互動：官方社群經營、回覆飼主意見</li>
+                            <li>客戶滿意度追蹤與回饋蒐集</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Card: Finance -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 rounded-full bg-brand-blue/20 flex items-center justify-center text-4xl mr-4 flex-shrink-0">💰</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-blue">財務部</h3>
+                                <p class="font-semibold text-gray-500">宗瀚</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700 text-sm">
+                            <li>財務規劃與資金管理</li>
+                            <li>成本與預算控管</li>
+                            <li>帳務與稅務處理</li>
+                            <li>員工薪資與行政支援</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Event History -->
+        <section id="events" class="page-section py-20">
+            <div class="text-center mb-16"><h2 class="text-4xl font-bold">活動歷程</h2><p class="text-lg text-gray-600 mt-2">每一次的相聚，都是與毛孩共創的珍貴回憶。</p></div>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute left-1/2 w-1 bg-brand-blue h-full transform -translate-x-1/2"></div>
+                <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                    <div class="order-1 w-5/12"></div><div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-12 h-12 rounded-full"><h1 class="mx-auto font-bold text-lg text-white">🏖️</h1></div>
+                    <div class="order-1 bg-white rounded-lg shadow-xl w-5/12 px-6 py-4 transform hover:scale-105 transition duration-300"><h3 class="mb-3 font-bold text-gray-800 text-xl">夏日海灘狗狗派對</h3><p class="text-sm leading-snug tracking-wide text-gray-600">2025 年 8 月</p><p class="text-sm font-medium leading-snug tracking-wide text-gray-900 text-opacity-100 mt-2">在台南黃金海岸舉辦，超過 50 隻狗狗與主人們一起玩水、玩沙、享受陽光！</p></div>
+                </div>
+                <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
+                    <div class="order-1 w-5/12"></div><div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-12 h-12 rounded-full"><h1 class="mx-auto font-bold text-lg text-white">🎄</h1></div>
+                    <div class="order-1 bg-white rounded-lg shadow-xl w-5/12 px-6 py-4 transform hover:scale-105 transition duration-300"><h3 class="mb-3 font-bold text-gray-800 text-xl">聖誕寵物市集</h3><p class="text-sm leading-snug tracking-wide text-gray-600">2024 年 12 月</p><p class="text-sm font-medium leading-snug tracking-wide text-gray-900 text-opacity-100 mt-2">與文創品牌合作，舉辦了溫馨的聖誕市集，交換禮物活動讓大家滿載而歸。</p></div>
+                </div>
+                <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                    <div class="order-1 w-5/12"></div><div class="z-20 flex items-center order-1 bg-brand-orange shadow-xl w-12 h-12 rounded-full"><h1 class="mx-auto font-bold text-lg text-white">🏕️</h1></div>
+                    <div class="order-1 bg-white rounded-lg shadow-xl w-5/12 px-6 py-4 transform hover:scale-105 transition duration-300"><h3 class="mb-3 font-bold text-gray-800 text-xl">秋季山林健行趣</h3><p class="text-sm leading-snug tracking-wide text-gray-600">2024 年 10 月</p><p class="text-sm font-medium leading-snug tracking-wide text-gray-900 text-opacity-100 mt-2">帶領大家前往阿里山，享受森林浴與芬多精，毛孩們在山林間盡情奔跑。</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Contact & Location -->
+        <section id="contact" class="page-section py-20">
+            <div class="text-center mb-12"><h2 class="text-4xl font-bold">交通資訊 & 聯絡我們</h2><p class="text-lg text-gray-600 mt-2">期待與您和毛孩見面！</p></div>
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div>
+                    <div class="bg-gray-200 rounded-xl shadow-lg overflow-hidden h-96"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.683516942941!2d120.2889813154563!3d23.07212098492724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e70f6e32d1d0b%3A0x6a2c305c4885f83!2zNzEx5Y-w5Y2X5biC55m-5b-X5Y2A!5e0!3m2!1szh-TW!2stw!4v1665561000123!5m2!1szh-TW!2stw" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                    <div class="mt-6 bg-white p-6 rounded-xl"><h3 class="text-xl font-bold mb-2">毛起來玩有限公司</h3><p class="text-gray-700">地址：701 台南市東區榮譽街67號 </p><p class="text-gray-700">電話：(06) 260-0000</p><p class="text-gray-700">Email：service@furfuntrip.com</p></div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">傳送訊息給我們</h3>
+                    <form action="#" method="POST"><div class="mb-4"><label for="name" class="block text-gray-700 font-bold mb-2">您的稱呼</label><input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange" required></div><div class="mb-4"><label for="email" class="block text-gray-700 font-bold mb-2">電子郵件</label><input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange" required></div><div class="mb-6"><label for="message" class="block text-gray-700 font-bold mb-2">您的訊息</label><textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange" required></textarea></div><div class="text-center"><button type="submit" class="w-full bg-brand-orange hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-lg transition duration-300">送出</button></div></form>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-10">
+    <footer class="bg-gray-800 text-white py-10 mt-12">
         <div class="container mx-auto px-6 text-center">
-            <a href="#home" class="flex items-center justify-center space-x-2 mb-4">
+            <a href="#" data-page="home" class="page-link flex items-center justify-center space-x-2 mb-4">
                  <img src="trip.png" alt="毛起來玩 Logo" class="h-10 w-10 bg-white rounded-full p-1">
                 <span class="text-xl font-bold">FurFun Trip</span>
             </a>
@@ -286,99 +413,69 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="to-top-button" class="hidden fixed bottom-8 right-8 bg-brand-orange text-white p-3 rounded-full shadow-lg hover:bg-opacity-80 transition duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-        </svg>
-    </button>
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Mobile Menu Toggle
+            const preloader = document.getElementById('preloader');
+            const pageLinks = document.querySelectorAll('.page-link');
+            const sections = document.querySelectorAll('.page-section');
+            const navLinks = document.querySelectorAll('.nav-link');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- Preloader ---
+            window.addEventListener('load', () => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            });
+
+            // --- Page Navigation ---
+            function showPage(pageId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                const activePage = document.getElementById(pageId);
+                if (activePage) {
+                    activePage.classList.add('active');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === pageId);
+                });
+                window.scrollTo(0, 0); // Scroll to top on page change
+            }
+
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    showPage(pageId);
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // --- Mobile Menu Toggle ---
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
 
-            // Header shrink on scroll
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('py-2');
-                    header.classList.remove('py-3');
-                } else {
-                    header.classList.add('py-3');
-                    header.classList.remove('py-2');
-                }
-            });
-
-            // Active Nav Link on Scroll
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            const linkHref = link.getAttribute('href');
-                            if (linkHref && linkHref.substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
-                    }
+            // --- Service Card Glow Effect ---
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                const glow = card.querySelector('.glow');
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    glow.style.transform = `translate(${x}px, ${y}px)`;
                 });
-            }, { rootMargin: "-30% 0px -70% 0px" });
-
-            sections.forEach(section => {
-                observer.observe(section);
             });
             
-             // Close mobile menu when a link is clicked
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-
-            // Fade-in sections on scroll
-            const fadeInSections = document.querySelectorAll('.fade-in-section');
-            const fadeInObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            fadeInSections.forEach(section => {
-                fadeInObserver.observe(section);
-            });
-
-            // Back to Top Button
-            const toTopButton = document.getElementById('to-top-button');
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    toTopButton.classList.remove('hidden');
-                } else {
-                    toTopButton.classList.add('hidden');
-                }
-            });
-
-            toTopButton.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            // --- Initial Page Load ---
+            showPage('home');
             
             // Set current year in footer
             document.getElementById('year').textContent = new Date().getFullYear();
@@ -387,4 +484,6 @@
 
 </body>
 </html>
+
+
 
