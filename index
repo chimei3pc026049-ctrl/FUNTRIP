@@ -52,7 +52,7 @@
     <header id="header" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-md transition-all duration-300">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="#home" class="flex items-center space-x-2">
-                <img src="image_61778b.png" alt="毛起來玩 Logo" class="h-12 w-12">
+                <img src="trip.png" alt="毛起來玩 Logo" class="h-12 w-12">
                 <span class="text-2xl font-extrabold text-brand-orange tracking-wider">FurFun Trip</span>
             </a>
             <nav class="hidden md:flex items-center space-x-8">
@@ -278,7 +278,7 @@
     <footer class="bg-gray-800 text-white py-10">
         <div class="container mx-auto px-6 text-center">
             <a href="#home" class="flex items-center justify-center space-x-2 mb-4">
-                 <img src="image_61778b.png" alt="毛起來玩 Logo" class="h-10 w-10 bg-white rounded-full p-1">
+                 <img src="trip.png" alt="毛起來玩 Logo" class="h-10 w-10 bg-white rounded-full p-1">
                 <span class="text-xl font-bold">FurFun Trip</span>
             </a>
             <p class="mb-4">毛起來玩，幸福就來！</p>
