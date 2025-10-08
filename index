@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>毛起來玩 FurFun Trip | 寵物旅遊公司</title>
+    <title>毛起來玩 ForFun Trip | 寵物旅遊公司</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +53,7 @@
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="#home" class="flex items-center space-x-2">
                 <img src="trip.png" alt="毛起來玩 Logo" class="h-12 w-12">
-                <span class="text-2xl font-extrabold text-brand-orange tracking-wider">FurFun Trip</span>
+                <span class="text-2xl font-extrabold text-brand-orange tracking-wider">ForFun Trip</span>
             </a>
             <nav class="hidden md:flex items-center space-x-8">
                 <a href="#home" class="nav-link text-gray-600 pb-1 border-b-2 border-transparent">首頁</a>
@@ -168,7 +168,7 @@
                 </div>
                 <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg mb-12">
                     <h3 class="text-2xl font-bold text-center mb-6">公司組織圖</h3>
-                    <img src="image_61776e.png" alt="公司組織圖" class="w-full h-auto rounded-lg">
+                    <img src="組織圖.png" alt="公司組織圖" class="w-full h-auto rounded-lg">
                 </div>
             </div>
         </section>
